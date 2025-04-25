@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicação TVDE - Registo de KMs e Faturação</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Registo TVDE</h1>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="inicio-sessao">Iniciar Sessão</button>
+                <button class="tab-btn" data-tab="fim-sessao">Finalizar Sessão</button>
+                <button class="tab-btn" data-tab="historico">Histórico</button>
+                <button class="tab-btn" data-tab="exportar">Exportar</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Formulário de Início de Sessão -->
+            <section id="inicio-sessao" class="tab-content active">
+                <h2>Iniciar Sessão</h2>
+                <form id="form-inicio">
+                    <div class="form-group">
+                        <label for="motorista-inicio">Motorista:</label>
+                        <select id="motorista-inicio" required>
+                            <option value="">Selecione o motorista</option>
+                            <option value="Zeinul">Zeinul</option>
+                            <option value="Luis">Luís</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="data-inicio">Data e Hora de Início:</label>
+                        <input type="datetime-local" id="data-inicio" required>
+                        <button type="button" id="btn-data-atual" class="btn-secondary">Data/Hora Atual</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="saldo-uber">Saldo Uber (€):</label>
+                        <input type="number" id="saldo-uber" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="saldo-uber-reembolsos">Saldo Uber Reembolsos (€):</label>
+                        <input type="number" id="saldo-uber-reembolsos" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="saldo-bolt">Saldo Bolt (€):</label>
+                        <input type="number" id="saldo-bolt" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="saldo-transfers">Saldo Transfers (€):</label>
+                        <input type="number" id="saldo-transfers" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="kms-inicio">KMs Iniciais:</label>
+                        <input type="number" id="kms-inicio" step="0.1" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Iniciar Sessão</button>
+                </form>
+            </section>
+
+            <!-- Formulário de Fim de Sessão -->
+            <section id="fim-sessao" class="tab-content">
+                <h2>Finalizar Sessão</h2>
+                <div id="sessao-ativa-info">
+                    <p>Não há sessão ativa no momento.</p>
+                </div>
+                <form id="form-fim" style="display: none;">
+                    <div class="form-group">
+                        <label for="data-fim">Data e Hora de Fim:</label>
+                        <input type="datetime-local" id="data-fim" required>
+                        <button type="button" id="btn-data-fim-atual" class="btn-secondary">Data/Hora Atual</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="saldo-uber-fim">Saldo Uber (€):</label>
+                        <input type="number" id="saldo-uber-fim" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="saldo-uber-reembolsos-fim">Saldo Uber Reembolsos (€):</label>
+                        <input type="number" id="saldo-uber-reembolsos-fim" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="saldo-bolt-fim">Saldo Bolt (€):</label>
+                        <input type="number" id="saldo-bolt-fim" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="saldo-transfers-fim">Saldo Transfers (€):</label>
+                        <input type="number" id="saldo-transfers-fim" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="kms-fim">KMs Finais:</label>
+                        <input type="number" id="kms-fim" step="0.1" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Finalizar Sessão</button>
+                </form>
+            </section>
+
+            <!-- Histórico de Sessões -->
+            <section id="historico" class="tab-content">
+                <h2>Histórico de Sessões</h2>
+                <div class="filtros">
+                    <div class="form-group">
+                        <label for="filtro-motorista">Motorista:</label>
+                        <select id="filtro-motorista">
+                            <option value="">Todos</option>
+                            <option value="Zeinul">Zeinul</option>
+                            <option value="Luis">Luís</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="filtro-data-inicio">Data Início:</label>
+                        <input type="date" id="filtro-data-inicio">
+                    </div>
+                    <div class="form-group">
+                        <label for="filtro-data-fim">Data Fim:</label>
+                        <input type="date" id="filtro-data-fim">
+                    </div>
+                    <button id="btn-filtrar" class="btn-secondary">Filtrar</button>
+                </div>
+                <div id="lista-sessoes">
+                    <p>Nenhuma sessão registada.</p>
+                </div>
+            </section>
+
+            <!-- Exportar Dados -->
+            <section id="exportar" class="tab-content">
+                <h2>Exportar Dados</h2>
+                <form id="form-exportar">
+                    <div class="form-group">
+                        <label for="export-motorista">Motorista:</label>
+                        <select id="export-motorista">
+                            <option value="">Todos</option>
+                            <option value="Zeinul">Zeinul</option>
+                            <option value="Luis">Luís</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="export-data-inicio">Data Início:</label>
+                        <input type="date" id="export-data-inicio" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="export-data-fim">Data Fim:</label>
+                        <input type="date" id="export-data-fim" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="export-email">Email para envio:</label>
+                        <input type="email" id="export-email" required>
+                    </div>
+                    <button type="button" id="btn-exportar-excel" class="btn-primary">Exportar para Excel</button>
+                    <button type="button" id="btn-enviar-email" class="btn-primary">Enviar por Email</button>
+                </form>
+            </section>
+        </main>
+
+        <!-- Modal para exibir resumo da sessão -->
+        <div id="modal-resumo" class="modal">
+            <div class="modal-content">
+                <span class="fechar">&times;</span>
+                <h2>Resumo da Sessão</h2>
+                <div id="resumo-sessao"></div>
+                <button id="btn-confirmar-resumo" class="btn-primary">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
